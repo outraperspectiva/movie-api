@@ -28,8 +28,7 @@ app.use(session({
 
 // Mock Database
 const users = [
-    { id: 1, username: 'admin', password: 'password', name: 'Admin User' },
-    { id: 2, username: 'user', password: '123', name: 'Regular User' }
+    { id: 1, username: 'sergio', password: 'banana', name: 'Sergio' }
 ];
 
 // Authentication Middleware
