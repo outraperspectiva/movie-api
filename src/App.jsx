@@ -9,15 +9,16 @@ import './App.css';
 
 // Protected Route Component
 const ProtectedRoute = () => {
-  const { user, loading } = useAuth();
+  // Authentication paused by user request
+  // const { user, loading } = useAuth();
 
-  if (loading) {
-    return <div className="loading-container"><div className="spinner"></div></div>;
-  }
+  // if (loading) {
+  //   return <div className="loading-container"><div className="spinner"></div></div>;
+  // }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
   return <Outlet />;
 };
