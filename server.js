@@ -3,6 +3,11 @@ import session from 'express-session';
 import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import passport from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,14 +31,49 @@ app.use(session({
     }
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Mock Database
 const users = [
     { id: 1, username: 'sergio', password: 'banana', name: 'Sergio' }
 ];
 
+// Passport Configuration
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID || 'PLACEHOLDER_ID',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || 'PLACEHOLDER_SECRET',
+    callbackURL: "http://localhost:3001/auth/google/callback"
+},
+    function (accessToken, refreshToken, profile, cb) {
+        // Check if user exists, or create new one
+        let user = users.find(u => u.googleId === profile.id);
+        if (!user) {
+            user = {
+                id: users.length + 1,
+                googleId: profile.id,
+                username: profile.emails[0].value,
+                name: profile.displayName,
+                provider: 'google'
+            };
+            users.push(user);
+        }
+        return cb(null, user);
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+    const user = users.find(u => u.id === id);
+    done(null, user);
+});
+
 // Authentication Middleware
 const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
+    if (req.isAuthenticated() || req.session.user) {
         next();
     } else {
         res.status(401).json({ message: 'Unauthorized' });
@@ -41,6 +81,19 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // Routes
+
+// Google Auth Routes
+app.get('/auth/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication
+        // Manually set session user for compatibility with existing auth
+        req.session.user = req.user;
+        res.redirect('http://localhost:5173/');
+    });
 
 // Login
 app.post('/api/login', (req, res) => {
