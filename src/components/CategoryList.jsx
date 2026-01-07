@@ -1,21 +1,23 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const CategoryList = ({ categories, selectedCategory, onSelectCategory }) => {
-    return (
-        <div className="category-list-container">
-            <div className="category-list">
-                {categories.map((category) => (
-                    <button
-                        key={category.id}
-                        className={`category-pill ${selectedCategory === category.id ? 'active' : ''}`}
-                        onClick={() => onSelectCategory(category.id)}
-                    >
-                        {category.name}
-                    </button>
-                ))}
-            </div>
+  const { t } = useTranslation();
+  return (
+    <div className="category-list-container">
+      <div className="category-list">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            className={`category-pill ${selectedCategory === category.id ? 'active' : ''}`}
+            onClick={() => onSelectCategory(category.id)}
+          >
+            {category.id === 'all' ? t('categories.all') : category.name}
+          </button>
+        ))}
+      </div>
 
-            <style>{`
+      <style>{`
         .category-list-container {
           width: 100%;
           overflow-x: auto;
@@ -55,8 +57,8 @@ const CategoryList = ({ categories, selectedCategory, onSelectCategory }) => {
           box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default CategoryList;

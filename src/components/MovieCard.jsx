@@ -1,20 +1,20 @@
 import React from 'react';
 
-const MovieCard = ({ movie }) => {
-    return (
-        <div className="movie-card">
-            <div className="poster-container">
-                <img src={movie.poster} alt={movie.title} loading="lazy" />
-                <div className="overlay">
-                    <span className="category-tag">{movie.category}</span>
-                </div>
-            </div>
-            <div className="movie-info">
-                <h3>{movie.title}</h3>
-                <p>{movie.year}</p>
-            </div>
+const MovieCard = ({ movie, onClick }) => {
+  return (
+    <div className="movie-card" onClick={onClick}>
+      <div className="poster-container">
+        <img src={movie.poster} alt={movie.title} loading="lazy" />
+        <div className="overlay">
+          <span className="category-tag">{movie.category}</span>
+        </div>
+      </div>
+      <div className="movie-info">
+        <h3>{movie.title}</h3>
+        <p>{movie.year}</p>
+      </div>
 
-            <style>{`
+      <style>{`
         .movie-card {
           background: var(--card-bg);
           border-radius: var(--radius);
@@ -23,6 +23,7 @@ const MovieCard = ({ movie }) => {
           transition: var(--transition);
           position: relative;
           box-shadow: var(--glass-shadow);
+          cursor: pointer;
         }
 
         .movie-card:hover {
@@ -84,8 +85,8 @@ const MovieCard = ({ movie }) => {
           color: var(--secondary-color);
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default MovieCard;

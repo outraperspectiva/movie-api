@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-import { getCategories, getMovies } from './services/tmdbApi';
+import { getCategories, getMovies, getMovieDetails } from './services/tmdbApi';
 import CategoryList from './components/CategoryList';
 import MovieList from './components/MovieList';
 import Login from './components/Login';
+import Modal from './components/Modal';
 import './App.css';
+import { useTranslation } from 'react-i18next';
 
 // Protected Route Component
 const ProtectedRoute = () => {
@@ -24,10 +26,12 @@ const ProtectedRoute = () => {
 };
 
 function Dashboard() {
+  const { t } = useTranslation();
   const { logout, user } = useAuth();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [movies, setMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -48,17 +52,22 @@ function Dashboard() {
     fetchMovies();
   }, [selectedCategory]);
 
+  const handleMovieSelect = async (movie) => {
+    const details = await getMovieDetails(movie.id);
+    setSelectedMovie({ ...movie, ...details });
+  };
+
   return (
     <div className="app-container">
       <header className="app-header">
         <div className="header-content">
           <div>
-            <h1>MovieVault</h1>
-            <p>Premium Entertainment</p>
+            <h1>{t('app.title')}</h1>
+            <p>{t('app.subtitle')}</p>
           </div>
           <div className="user-info">
-            <span>Welcome, {user?.name}</span>
-            <button onClick={logout} className="logout-btn">Logout</button>
+            <span>{t('app.welcome', { name: user?.name })}</span>
+            <button onClick={logout} className="logout-btn">{t('app.logout')}</button>
           </div>
         </div>
       </header>
@@ -75,9 +84,15 @@ function Dashboard() {
             <div className="spinner"></div>
           </div>
         ) : (
-          <MovieList movies={movies} />
+          <MovieList movies={movies} onMovieSelect={handleMovieSelect} />
         )}
       </main>
+
+      <Modal
+        isOpen={!!selectedMovie}
+        movie={selectedMovie}
+        onClose={() => setSelectedMovie(null)}
+      />
 
       <style>{`
         .app-header {
@@ -146,7 +161,7 @@ function Dashboard() {
             to { transform: rotate(360deg); }
         }
       `}</style>
-    </div>
+    </div >
   );
 }
 

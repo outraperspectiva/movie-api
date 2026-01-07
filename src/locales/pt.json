@@ -1,0 +1,31 @@
+{
+    "app": {
+        "title": "MovieVault",
+        "subtitle": "Entretenimento Premium",
+        "welcome": "Bem-vindo, {{name}}",
+        "logout": "Sair"
+    },
+    "login": {
+        "welcomeBack": "Bem-vindo de Volta",
+        "subtitle": "Por favor, entre para continuar",
+        "username": "Usuário",
+        "usernamePlaceholder": "Digite seu usuário",
+        "password": "Senha",
+        "passwordPlaceholder": "Digite sua senha",
+        "signIn": "Entrar",
+        "signInGoogle": "Entrar com Google",
+        "demoCredentials": "Credenciais de Demonstração"
+    },
+    "categories": {
+        "all": "Todos"
+    },
+    "movies": {
+        "notFound": "Nenhum filme encontrado nesta categoria.",
+        "defaultCategory": "Filme"
+    },
+    "modal": {
+        "director": "Diretor",
+        "cast": "Elenco Principal",
+        "noSynopsis": "Sinopse não disponível."
+    }
+}

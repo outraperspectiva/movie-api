@@ -1,0 +1,31 @@
+{
+    "app": {
+        "title": "MovieVault",
+        "subtitle": "Premium Entertainment",
+        "welcome": "Welcome, {{name}}",
+        "logout": "Logout"
+    },
+    "login": {
+        "welcomeBack": "Welcome Back",
+        "subtitle": "Please sign in to continue",
+        "username": "Username",
+        "usernamePlaceholder": "Enter your username",
+        "password": "Password",
+        "passwordPlaceholder": "Enter your password",
+        "signIn": "Sign In",
+        "signInGoogle": "Sign in with Google",
+        "demoCredentials": "Demo Credentials"
+    },
+    "categories": {
+        "all": "All"
+    },
+    "movies": {
+        "notFound": "No movies found in this category.",
+        "defaultCategory": "Movie"
+    },
+    "modal": {
+        "director": "Director",
+        "cast": "Top Cast",
+        "noSynopsis": "No synopsis available."
+    }
+}

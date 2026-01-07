@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
+    const { t } = useTranslation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,35 +25,35 @@ const Login = () => {
     return (
         <div className="login-container">
             <div className="login-card">
-                <h1>Welcome Back</h1>
-                <p>Please sign in to continue</p>
+                <h1>{t('login.welcomeBack')}</h1>
+                <p>{t('login.subtitle')}</p>
 
                 {error && <div className="error-message">{error}</div>}
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="username">{t('login.username')}</label>
                         <input
                             type="text"
                             id="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Enter your username"
+                            placeholder={t('login.usernamePlaceholder')}
                             required
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password">{t('login.password')}</label>
                         <input
                             type="password"
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter your password"
+                            placeholder={t('login.passwordPlaceholder')}
                             required
                         />
                     </div>
-                    <button type="submit" className="login-btn">Sign In</button>
+                    <button type="submit" className="login-btn">{t('login.signIn')}</button>
 
                     <div className="divider">
                         <span>OR</span>
@@ -68,11 +70,11 @@ const Login = () => {
                             <path fill="#FBBC05" d="M5.84 14.11c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.09H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.91l3.66-2.8z" />
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.09l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                         </svg>
-                        Sign in with Google
+                        {t('login.signInGoogle')}
                     </button>
                 </form>
                 <div className="demo-credentials">
-                    <p>Demo Credentials:</p>
+                    <p>{t('login.demoCredentials')}:</p>
                     <code>admin / password</code>
                 </div>
             </div>

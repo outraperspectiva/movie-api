@@ -1,15 +1,18 @@
 import React from 'react';
 import MovieCard from './MovieCard';
+import { useTranslation } from 'react-i18next';
 
-const MovieList = ({ movies }) => {
+const MovieList = ({ movies, onMovieSelect }) => {
+    const { t } = useTranslation();
+
     if (movies.length === 0) {
-        return <div className="no-movies">No movies found in this category.</div>
+        return <div className="no-movies">{t('movies.notFound')}</div>
     }
 
     return (
         <div className="movie-grid">
             {movies.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
+                <MovieCard key={movie.id} movie={movie} onClick={() => onMovieSelect(movie)} />
             ))}
 
             <style>{`
